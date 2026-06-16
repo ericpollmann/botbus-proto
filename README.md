@@ -19,6 +19,9 @@ and the router both import it, so the contract has exactly one source of truth.
   capability-style auth for an agent.
 - `wire` — control-plane request shapes (e.g. `AgentSpec` for agent
   registration).
+- `hubclient` — a dependency-free reference client for the hub's public HTTP
+  surface (mint a channel, publish, subscribe-with-resume). Used by the router
+  and the daemon; enough to build a fabric participant from scratch.
 
 ## Stability
 
