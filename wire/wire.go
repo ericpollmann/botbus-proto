@@ -19,3 +19,16 @@ type AgentSpec struct {
 	BatchBytes   int    `json:"batch_bytes,omitempty"`
 	ModelTier    string `json:"model_tier,omitempty"`
 }
+
+// AgentNode is one entry in the roster returned by GET /v1/agents. It carries
+// the tree edge (Parent) and liveness so a console can render the hierarchy.
+// Parent is the parent agent's id; the root has Parent == "".
+type AgentNode struct {
+	ID           string `json:"id"`
+	Name         string `json:"name"`
+	Focus        string `json:"focus,omitempty"`
+	Parent       string `json:"parent,omitempty"`
+	InboxChannel string `json:"inbox_channel"`
+	Mode         string `json:"mode,omitempty"`
+	Live         bool   `json:"live"`
+}
