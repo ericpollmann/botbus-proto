@@ -1,6 +1,34 @@
 package envelope
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
+
+func TestEncFieldRoundTrips(t *testing.T) {
+	e := Envelope{V: 1, ID: "x", From: "a", Kind: KindChat, Enc: "QUJD"}
+	b, err := Encode(e)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(b), `"enc":"QUJD"`) {
+		t.Fatalf("enc not serialized: %s", b)
+	}
+	got, err := Decode(b)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got.Enc != "QUJD" {
+		t.Fatalf("enc round-trip: got %q", got.Enc)
+	}
+}
+
+func TestEncOmittedWhenEmpty(t *testing.T) {
+	b, _ := Encode(Envelope{V: 1, ID: "x", From: "a", Kind: KindChat})
+	if strings.Contains(string(b), "enc") {
+		t.Fatalf("empty enc must be omitted: %s", b)
+	}
+}
 
 func TestEncodeDecodeRoundTrip(t *testing.T) {
 	e := Envelope{
