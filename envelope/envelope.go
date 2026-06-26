@@ -53,6 +53,10 @@ type Envelope struct {
 	Channel string   `json:"channel,omitempty"`
 	Subject string   `json:"subject,omitempty"`
 	Body    string   `json:"body"`
+	// Enc carries a base64-encoded end-to-end ciphertext envelope. When set,
+	// Subject and Body are empty on the wire; the receiving daemon decrypts Enc
+	// and repopulates Subject/Body in memory. The hub stays byte-agnostic.
+	Enc string `json:"enc,omitempty"`
 }
 
 // Kind constants.
